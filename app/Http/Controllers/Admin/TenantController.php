@@ -17,9 +17,14 @@ class TenantController extends Controller
     {
         $tenants = Tenant::query()->when(request('query'), function ($query) {
             // @TODO filter by name
-        })->get();
+        })->paginate(10)->withQueryString();
 
-        return Inertia::render("Admin/Tenants/Index", compact('tenants'));
+        $stats = [
+            "all_tenants" => Tenant::count(),
+            "active_tenants" => Tenant::whereIsActive(1)->count()
+        ];
+
+        return Inertia::render("Admin/Tenants/Index", compact('tenants', 'stats'));
     }
 
     /**
@@ -38,8 +43,14 @@ class TenantController extends Controller
      */
     public function store(TenantRequest $request)
     {
-        $tenant = Tenant::query()->create($request->validated());
-        return back()->with('success', __('Tenant created successfull'));
+        $data = $request->validated();
+        $data['user_id'] = auth()->id();
+
+        if (isset($data['is_active']) && $data['is_active'] == 'true') $data['is_active'] = 1;
+        else $data['is_active'] = 0;
+
+        $tenant = Tenant::query()->create($data);
+        return redirect(route('admin.tenants.index'))->with('success', __('Tenant created successfull'));
     }
 
     /**
@@ -47,6 +58,7 @@ class TenantController extends Controller
      */
     public function show(Tenant $tenant)
     {
+        $tenant->is_active = (bool) $tenant->is_active;
         return Inertia::render("Admin/Tenants/Form", compact('tenant'));
     }
 
@@ -55,6 +67,7 @@ class TenantController extends Controller
      */
     public function edit(Tenant $tenant)
     {
+        $tenant->is_active = (bool) $tenant->is_active;
         return Inertia::render("Admin/Tenants/Form", compact('tenant'));
     }
 
@@ -63,8 +76,13 @@ class TenantController extends Controller
      */
     public function update(TenantRequest $request, Tenant $tenant)
     {
-        $tenant->update($request->validated());
-        return back()->with('success', __('Tenant updated successfull'));
+        $data = $request->validated();
+
+        if (isset($data['is_active']) && $data['is_active'] == 'true') $data['is_active'] = 1;
+        else $data['is_active'] = 0;
+
+        $tenant->update($data);
+        return redirect(route('admin.tenants.index'))->with('success', __('Tenant updated successfull'));
     }
 
     /**

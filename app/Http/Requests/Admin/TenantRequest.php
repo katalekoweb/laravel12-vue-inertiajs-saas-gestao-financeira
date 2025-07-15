@@ -22,16 +22,16 @@ class TenantRequest extends FormRequest
      */
     public function rules(): array
     {
-        $tenant = new Tenant();
+        $tenant = request()?->route('tenant');
 
         return [
             "name" => ["string", "required"],
             "doc" => ["nullable", "string"],
-            "email" => ["email", "required"],
+            "email" => ["nullable", "email"],
             "phone" => ["nullable", "string"],
             "address" => ["nullable", "string"],
-            "is_active" => ["numeric", "required"],
-            "domain" => ["nullable", "string", "unique:tenants,domain,{$tenant->id}"]
+            "is_active" => ["nullable"],
+            "domain" => ["nullable", "string", "unique:tenants,domain,{$tenant?->id}"]
         ];
     }
 }

@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    table {
+        @apply w-full
+    }
+
+    table thead {
+        @apply bg-gray-200;
+    }
+
+    table tbody tr {
+        @apply even:bg-white odd:bg-gray-100
+    }
+
+    th, td {
+        @apply p-2 text-left;
+    }
+}
