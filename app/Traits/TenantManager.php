@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use App\Models\Tenant;
-use App\Models\User;
 use Ramsey\Uuid\Uuid;
 
 trait TenantManager
@@ -37,23 +36,5 @@ trait TenantManager
         });
     }
 
-    /**
-     * Get the tenant for the current record.
-     *
-     * @return Tenant|null
-     */
-    public function tenant(): ?Tenant
-    {
-        return $this->belongsTo(Tenant::class);
-    }
-
-     /**
-     * Get the current user for the record.
-     *
-     * @return User|null
-     */
-    public function user(): ?User
-    {
-        return $this->belongsTo(User::class);
-    }
+    // ... (your existing methods: getCurrentTenant, setCurrentTenant, switchTenant)
 }
