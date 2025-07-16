@@ -30,7 +30,7 @@ trait TenantManager
 
         static::addGlobalScope('tenant', function (Builder $builder) {
             $user = Auth::user();
-            if ($user && $user->tenant_id) {
+            if ($user && $user->tenant_id && !$user->is_super_admin) {
                 $builder->where('tenant_id', $user->tenant_id);
             }
         });

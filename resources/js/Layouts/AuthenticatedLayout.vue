@@ -52,6 +52,10 @@ onMounted(() => {
                                     :href="route('admin.tenants.index')" :active="route().current('admin.tenants.*')">
                                     Tenants
                                 </NavLink>
+                                <NavLink v-if="$page.props.auth.user.is_super_admin == 1 || $page.props.auth.user.role == 'admin'"
+                                    :href="route('admin.users.index')" :active="route().current('admin.users.*')">
+                                    Users
+                                </NavLink>
                             </div>
                         </div>
 

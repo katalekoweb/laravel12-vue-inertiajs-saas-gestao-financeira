@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\TenantController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\SuperAdmin;
@@ -29,8 +30,11 @@ Route::middleware('auth')->group(function () {
 
 Route::name("admin.")->prefix("admin")->group(function () {
     Route::resource("tenants", TenantController::class)->middleware(SuperAdmin::class);
-    Route::get("settings", [TenantController::class, 'settingsView'])->name('settings')->middleware(Admin::class);
-    Route::post("settings/{tenant}", [TenantController::class, 'settingsUpdate'])->name('settings.update')->middleware(Admin::class);
+    Route::middleware(Admin::class)->group(function () {
+        Route::get("settings", [TenantController::class, 'settingsView'])->name('settings');
+        Route::post("settings/{tenant}", [TenantController::class, 'settingsUpdate'])->name('settings.update');
+        Route::resource('users', UserController::class);
+    });
 });
 
 require __DIR__.'/auth.php';

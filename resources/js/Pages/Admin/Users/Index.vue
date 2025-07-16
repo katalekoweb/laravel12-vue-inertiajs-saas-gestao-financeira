@@ -13,7 +13,7 @@ import { ref } from 'vue';
 const toast = useToast();
 
 const props = defineProps({
-    tenants: {
+    users: {
         type: Object,
         default: () => ({})
     },
@@ -35,10 +35,8 @@ const deleteRecord = (id) => {
             id: id
         })
 
-        form.delete(route('admin.tenants.destroy', id), {
-            onSuccess: () => {
-                // toast.add({ severity: 'info', summary: 'Success', detail: 'Tenant saved!', life: 3000 });
-            }
+        form.delete(route('admin.users.destroy', id), {
+            onSuccess: () => {}
         })
     }
 }
@@ -46,16 +44,16 @@ const deleteRecord = (id) => {
 
 <template>
 
-    <Head title="Tenants" />
+    <Head title="Users" />
 
     <AuthenticatedLayout>
         <template #header>
             <div class="flex items-center justify-between">
                 <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
-                    Tenants
+                    Users
                 </h2>
 
-                <Link class="underline" :href="route('admin.tenants.create')">New tenant</Link>
+                <Link class="underline" :href="route('admin.users.create')">New user</Link>
             </div>
         </template>
 
@@ -67,15 +65,15 @@ const deleteRecord = (id) => {
 
                     <div class="border-b grid grid-cols-2">
                         <div class="py-4">
-                            <div class="text-xl">Total Tenants</div>
+                            <div class="text-xl">Total Users</div>
                             <div class="text-3xl">
-                                {{ stats.all_tenants }}
+                                {{ stats.all_users }}
                             </div>
                         </div>
                         <div class="py-4 border-b-2 border-green-500">
-                            <div class="text-xl">Active Tenants</div>
+                            <div class="text-xl">Active Users</div>
                             <div class="text-3xl">
-                                {{ stats.active_tenants }}
+                                {{ stats.active_users }}
                             </div>
                         </div>
                     </div>
@@ -83,7 +81,7 @@ const deleteRecord = (id) => {
                     <form method="get" class="flex space-x-2">
                         <TextInput name="query" placeholder="Search here..." v-model="queryString" />
                         <SecondaryButton type="submit">Search</SecondaryButton>
-                        <Link v-if="queryString" class=" bg-red-700 text-white px-5 rounded-md p-2 shadow-md" :href="route('admin.tenants.index')"> Clean</Link>
+                        <Link v-if="queryString" class=" bg-red-700 text-white px-5 rounded-md p-2 shadow-md" :href="route('admin.users.index')"> Clean</Link>
                     </form>
 
                     <div class="w-full overflow-x-auto">
@@ -94,29 +92,25 @@ const deleteRecord = (id) => {
                                     <th>
                                         Name
                                     </th>
-                                    <th>Doc</th>
-                                    <th>Phone</th>
                                     <th>Email</th>
-                                    <th>Address</th>
+                                    <th>Role</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-if="tenants.data.length == 0">
-                                    <td class="text-center" colspan="7">No records found</td>
+                                <tr v-if="users.data.length == 0">
+                                    <td class="text-center" colspan="5">No records found</td>
                                 </tr>
-                                <tr v-for="tenant in tenants.data" :key="tenant.id">
-                                    <td> {{ tenant.id }} </td>
-                                    <td> {{ tenant.name }} </td>
-                                    <td> {{ tenant.doc }} </td>
-                                    <td> {{ tenant.phone }} </td>
-                                    <td> {{ tenant.email }} </td>
-                                    <td> {{ tenant.address }} </td>
+                                <tr v-for="user in users.data" :key="user.id">
+                                    <td> {{ user.id }} </td>
+                                    <td> {{ user.name }} </td>
+                                    <td> {{ user.email }} </td>
+                                    <td> {{ user.role }} </td>
                                     <td class=" flex items-center space-x-2">
-                                        <Link :href="route('admin.tenants.edit', tenant.id)">
+                                        <Link :href="route('admin.users.edit', user.id)">
                                         <PrimaryButton>Edit</PrimaryButton>
                                         </Link>
-                                        <DangerButton @click="deleteRecord(tenant.id)">Delete</DangerButton>
+                                        <DangerButton @click="deleteRecord(user.id)">Delete</DangerButton>
                                     </td>
                                 </tr>
                             </tbody>
@@ -124,7 +118,7 @@ const deleteRecord = (id) => {
                     </div>
 
                     <div>
-                        <Pagination :links="tenants.links" />
+                        <Pagination :links="users.links" />
                     </div>
 
                 </div>

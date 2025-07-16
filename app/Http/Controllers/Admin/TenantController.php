@@ -42,7 +42,7 @@ class TenantController extends Controller
     public function create()
     {
         $tenant = new Tenant();
-        $tenant->is_active = 1;
+        $tenant->is_active = true;
 
         return Inertia::render("Admin/Tenants/Form", compact("tenant"));
     }
