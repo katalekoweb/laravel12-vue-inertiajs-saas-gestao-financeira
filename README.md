@@ -67,6 +67,16 @@ docker run --rm \
 ./vendor/bin/sail artisan migrate --seed
 ```
 
+### Install npm dependencies
+```bash
+./vendor/bin/sail npm i
+```
+
+### Buid npm libs
+```bash
+./vendor/bin/sail npm run build
+```
+
 ### Open the project in your browser
 http://locathost
 Login: username:admin@admin.com, password: password
@@ -135,6 +145,16 @@ docker run --rm \
 ### Rode as migrations e os seeders
 ```bash
 ./vendor/bin/sail artisan migrate --seed
+```
+
+### Instale as dependencias npm
+```bash
+./vendor/bin/sail npm i
+```
+
+### Faça o build das libs npm
+```bash
+./vendor/bin/sail npm run build
 ```
 
 ### Abra o seu projeto
