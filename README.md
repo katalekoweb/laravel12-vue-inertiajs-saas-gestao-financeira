@@ -1,3 +1,6 @@
+![Preview do Projeto](https://raw.githubusercontent.com/katalekoweb/laravel12-vue-inertiajs-saas-gestao-financeira/main/finance-project.png)
+
+
 ### English 
 # Multitenant Finances Management System
 
