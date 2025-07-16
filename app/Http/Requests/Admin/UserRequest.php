@@ -25,7 +25,7 @@ class UserRequest extends FormRequest
 
         return [
             "name" => ["string", "required"],
-            "email" => ["nullable", "email", "unique:tenants,domain,{$user?->id}"],
+            "email" => ["nullable", "email", "unique:users,email,{$user?->id}"],
             "role" => ["required", "string"],
             "tenant_id" => ["nullable", "numeric", "exists:tenants,id"],
             "is_active" => ["nullable"],

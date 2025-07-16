@@ -56,6 +56,12 @@ onMounted(() => {
                                     :href="route('admin.users.index')" :active="route().current('admin.users.*')">
                                     Users
                                 </NavLink>
+                                <NavLink :href="route('admin.categories.index')" :active="route().current('admin.categories.*')">
+                                    Categories
+                                </NavLink>
+                                <NavLink :href="route('admin.finances.index')" :active="route().current('admin.finances.*')">
+                                    Finances
+                                </NavLink>
                             </div>
                         </div>
 

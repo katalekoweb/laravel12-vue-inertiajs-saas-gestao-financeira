@@ -11,7 +11,7 @@ class FinanceRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,13 @@ class FinanceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'description' => ['required', 'string'],
+            'amount' => ['required'],
+            'type' => ['required'],
+            'category_id' => ['nullable'],
+            'tenant_id' => ['nullable'],
+            "transaction_date" => ['required', 'date'],
+            "is_active" => ["nullable"],
         ];
     }
 }
