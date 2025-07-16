@@ -1,4 +1,4 @@
-![Preview do Projeto](https://raw.githubusercontent.com/katalekoweb/laravel12-vue-inertiajs-saas-gestao-financeira/main/finance-project.png)
+![Finance Management - Gestaão Financeira](https://raw.githubusercontent.com/katalekoweb/laravel12-vue-inertiajs-saas-gestao-financeira/refs/heads/develop/public/images/finance-project.png)
 
 
 ### English 
