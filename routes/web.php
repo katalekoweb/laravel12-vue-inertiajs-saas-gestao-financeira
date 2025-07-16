@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\FinanceController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
@@ -35,6 +37,8 @@ Route::name("admin.")->prefix("admin")->group(function () {
         Route::post("settings/{tenant}", [TenantController::class, 'settingsUpdate'])->name('settings.update');
         Route::resource('users', UserController::class);
     });
+    Route::resource('categories', CategoryController::class);
+    Route::resource('finances', FinanceController::class);
 });
 
 require __DIR__.'/auth.php';
