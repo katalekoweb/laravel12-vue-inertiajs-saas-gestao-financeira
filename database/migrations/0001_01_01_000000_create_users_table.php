@@ -15,12 +15,14 @@ return new class extends Migration
             $table->id();
             $table->uuid()->nullable();
             $table->unsignedBigInteger("tenant_id")->nullable();
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->boolean("is_super_admin")->default(false);
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

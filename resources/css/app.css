@@ -1,3 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    table {
+        @apply w-full
+    }
+
+    table thead {
+        @apply bg-gray-200;
+    }
+
+    table tbody tr {
+        @apply even:bg-white odd:bg-gray-100
+    }
+
+    th, td {
+        @apply p-2 text-left;
+    }
+
+    select {
+        @apply rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-indigo-600 dark:focus:ring-indigo-600;
+    }
+}

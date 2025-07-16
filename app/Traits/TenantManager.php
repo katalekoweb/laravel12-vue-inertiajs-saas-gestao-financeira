@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 use App\Models\Tenant;
-use App\Models\User;
 use Ramsey\Uuid\Uuid;
 
 trait TenantManager
@@ -31,29 +30,11 @@ trait TenantManager
 
         static::addGlobalScope('tenant', function (Builder $builder) {
             $user = Auth::user();
-            if ($user && $user->tenant_id) {
+            if ($user && $user->tenant_id && !$user->is_super_admin) {
                 $builder->where('tenant_id', $user->tenant_id);
             }
         });
     }
 
-    /**
-     * Get the tenant for the current record.
-     *
-     * @return Tenant|null
-     */
-    public function tenant(): ?Tenant
-    {
-        return $this->belongsTo(Tenant::class);
-    }
-
-     /**
-     * Get the current user for the record.
-     *
-     * @return User|null
-     */
-    public function user(): ?User
-    {
-        return $this->belongsTo(User::class);
-    }
+    // ... (your existing methods: getCurrentTenant, setCurrentTenant, switchTenant)
 }

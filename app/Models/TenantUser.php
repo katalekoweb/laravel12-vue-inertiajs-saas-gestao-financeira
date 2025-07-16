@@ -5,16 +5,17 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Traits\TenantManager;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable implements MustVerifyEmail
+class TenantUser extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, TenantManager;
+
+    protected $table = "users";
 
     /**
      * The attributes that are mass assignable.
@@ -51,7 +52,4 @@ class User extends Authenticatable implements MustVerifyEmail
         ];
     }
 
-    public function tenant (): BelongsTo {
-        return $this->belongsTo(Tenant::class);
-    }
 }

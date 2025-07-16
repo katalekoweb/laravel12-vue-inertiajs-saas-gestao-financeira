@@ -1,0 +1,103 @@
+<script setup>
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+import { Head, useForm } from '@inertiajs/vue3';
+import InputLabel from '@/Components/InputLabel.vue';
+import TextInput from '@/Components/TextInput.vue';
+import InputError from '@/Components/InputError.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
+
+const props = defineProps({
+    tenant: {
+        type: Object,
+        default: () => ({})
+    }
+});
+
+const form = useForm({
+    name: props.tenant.name,
+    email: props.tenant.email,
+    phone: props.tenant.phone,
+    address: props.tenant.address,
+    is_active: props.tenant?.is_active,
+    domain: props.tenant.domain,
+    doc: props.tenant.doc,
+})
+
+const save = () => {
+    if (props.tenant.id) {
+        form.put(route('admin.tenants.update', props.tenant.id))
+    } else {
+        form.post(route('admin.tenants.store'))
+    }
+}
+
+</script>
+
+<template>
+
+    <Head :title="tenant.id ? 'Edit tenant' : 'Create new tenant'" />
+
+    <AuthenticatedLayout>
+        <template #header>
+            <h2 class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200">
+                {{ tenant.id ? 'Edit tenant' : 'Create new tenant' }}
+            </h2>
+        </template>
+
+        <div class="py-12">
+            <div class="mx-auto max-w-7xl space-y-6 sm:px-6 lg:px-8">
+                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8 dark:bg-gray-800 space-y-4">
+
+                    <div>
+                        <InputLabel for="name" value="Name" />
+                        <TextInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
+                        <InputError class="mt-2" :message="form.errors.name" />
+                    </div>
+
+                     <div>
+                        <InputLabel for="doc" value="Doc" />
+                        <TextInput id="doc" type="text" class="mt-1 block w-full" v-model="form.doc" />
+                        <InputError class="mt-2" :message="form.errors.doc" />
+                    </div>
+
+                     <div>
+                        <InputLabel for="domain" value="Domain" />
+                        <TextInput id="domain" type="text" class="mt-1 block w-full" v-model="form.domain" />
+                        <InputError class="mt-2" :message="form.errors.domain" />
+                    </div>
+
+                     <div>
+                        <InputLabel for="email" value="Email" />
+                        <TextInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" />
+                        <InputError class="mt-2" :message="form.errors.email" />
+                    </div>
+
+                     <div>
+                        <InputLabel for="phone" value="Phone" />
+                        <TextInput id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" />
+                        <InputError class="mt-2" :message="form.errors.phone" />
+                    </div>
+
+                    <div>
+                        <InputLabel for="address" value="Address" />
+                        <TextInput id="address" type="text" class="mt-1 block w-full" v-model="form.address" />
+                        <InputError class="mt-2" :message="form.errors.address" />
+                    </div>
+
+                     <div>
+                        <InputLabel for="is_active" value="Is Active" />
+                        <input id="is_active" type="checkbox" class="mt-1 block" v-model="form.is_active" />
+                        <InputError class="mt-2" :message="form.errors.is_active" />
+                    </div>
+                    
+                    <div class=" flex items-center justify-end">
+                        <div class="">
+                            <PrimaryButton @click="save()">Save</PrimaryButton>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </AuthenticatedLayout>
+</template>
