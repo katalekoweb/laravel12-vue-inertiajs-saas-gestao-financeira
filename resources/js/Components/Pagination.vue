@@ -19,43 +19,4 @@ const props = defineProps({
     required: true
   }
 })
-
-const formatLabel = (label) => {
-  if (label === '&laquo; Previous') return '«'
-  if (label === 'Next &raquo;') return '»'
-  return label
-}
-
-onMounted (() => {
-    console.log(props.links);    
-})
 </script>
-
-<style scoped>
-.pagination {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-}
-.pagination-list {
-  display: flex;
-  list-style: none;
-  gap: 0.5rem;
-}
-.pagination-link {
-  padding: 0.5rem 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  text-decoration: none;
-  color: #333;
-}
-.pagination-link.active {
-  background-color: #007bff;
-  color: white;
-  font-weight: bold;
-}
-.pagination-link.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
-</style>

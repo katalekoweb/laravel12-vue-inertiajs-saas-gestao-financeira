@@ -2,10 +2,13 @@
 import DangerButton from '@/Components/DangerButton.vue';
 import Pagination from '@/Components/Pagination.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+import SecondaryButton from '@/Components/SecondaryButton.vue';
+import TextInput from '@/Components/TextInput.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, useForm } from '@inertiajs/vue3';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
+import { ref } from 'vue';
 
 const toast = useToast();
 
@@ -17,8 +20,14 @@ const props = defineProps({
     stats: {
         type: Object,
         default: () => ({})
+    },
+    query: {
+        type: String,
+        default: () => ("")
     }
 })
+
+const queryString = ref(props.query)
 
 const deleteRecord = (id) => {
     if (confirm('Sure?')) {
@@ -70,6 +79,12 @@ const deleteRecord = (id) => {
                             </div>
                         </div>
                     </div>
+
+                    <form method="get" class="flex space-x-2">
+                        <TextInput name="query" placeholder="Search here..." v-model="queryString" />
+                        <SecondaryButton type="submit">Search</SecondaryButton>
+                        <Link v-if="queryString" class=" bg-red-700 text-white px-5 rounded-md p-2 shadow-md" :href="route('admin.tenants.index')"> Clean</Link>
+                    </form>
 
                     <div class="w-full overflow-x-auto">
                         <table class="w-full">

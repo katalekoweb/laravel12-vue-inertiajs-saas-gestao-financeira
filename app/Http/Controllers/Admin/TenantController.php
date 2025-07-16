@@ -15,16 +15,23 @@ class TenantController extends Controller
      */
     public function index()
     {
-        $tenants = Tenant::query()->when(request('query'), function ($query) {
-            // @TODO filter by name
-        })->paginate(10)->withQueryString();
+        $tenants = Tenant::query()->when(request('query'), function ($query) {            
+            $query->where(function ($query) {
+                $queryString = request('query');
+                $query->where('name', 'like', "%$queryString%")
+                    ->orWhere('email', 'like', "%$queryString%")
+                    ->orWhere('phone', 'like', "%$queryString%");
+            });
+        })->orderByDesc('id')->paginate(10)->withQueryString();
 
         $stats = [
             "all_tenants" => Tenant::count(),
             "active_tenants" => Tenant::whereIsActive(1)->count()
         ];
 
-        return Inertia::render("Admin/Tenants/Index", compact('tenants', 'stats'));
+        $query = request('query');
+
+        return Inertia::render("Admin/Tenants/Index", compact('tenants', 'stats', 'query'));
     }
 
     /**
