@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\Admin;
 use App\Http\Middleware\SuperAdmin;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,8 @@ Route::middleware('auth')->group(function () {
 
 Route::name("admin.")->prefix("admin")->group(function () {
     Route::resource("tenants", TenantController::class)->middleware(SuperAdmin::class);
+    Route::get("settings", [TenantController::class, 'settingsView'])->name('settings')->middleware(Admin::class);
+    Route::post("settings/{tenant}", [TenantController::class, 'settingsUpdate'])->name('settings.update')->middleware(Admin::class);
 });
 
 require __DIR__.'/auth.php';

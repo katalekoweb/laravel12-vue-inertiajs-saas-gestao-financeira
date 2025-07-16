@@ -79,6 +79,9 @@ onMounted(() => {
                                         <DropdownLink :href="route('profile.edit')">
                                             Profile
                                         </DropdownLink>
+                                        <DropdownLink v-if="$page.props.auth.user.role == 'admin'" :href="route('admin.settings')">
+                                            Settings
+                                        </DropdownLink>
                                         <DropdownLink :href="route('logout')" method="post" as="button">
                                             Log Out
                                         </DropdownLink>

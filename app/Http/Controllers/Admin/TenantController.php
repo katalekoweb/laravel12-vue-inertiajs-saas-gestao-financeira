@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\TenantRequest;
 use App\Models\Tenant;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
+use Ramsey\Uuid\Uuid;
 
 class TenantController extends Controller
 {
@@ -15,7 +17,7 @@ class TenantController extends Controller
      */
     public function index()
     {
-        $tenants = Tenant::query()->when(request('query'), function ($query) {            
+        $tenants = Tenant::query()->when(request('query'), function ($query) {
             $query->where(function ($query) {
                 $queryString = request('query');
                 $query->where('name', 'like', "%$queryString%")
@@ -101,14 +103,34 @@ class TenantController extends Controller
         return back()->with('success', __('Tenant deleted successfull'));
     }
 
-    public function settingsView(Tenant $tenant)
+    public function settingsView()
     {
+        $user = User::find(auth()->id());
+        $tenant = $user->tenant;
+
+        if (!$tenant) {
+            $tenant = Tenant::query()->create([
+                'name' => auth()?->user()?->name,
+                'email' => auth()?->user()?->email,
+                'user_id' => auth()->id(),
+                'uuid' => Uuid::uuid4()
+            ]);
+
+            $user->tenant_id = $tenant->id;
+            $user->save();
+        }
+
         return Inertia::render("Admin/Tenants/Settings", compact('tenant'));
     }
 
     public function settingsUpdate(TenantRequest $request, Tenant $tenant)
     {
-        $tenant->update($request->validated());
-        return back()->with('success', __('Tenant updated successfull'));
+        $data = $request->validated();
+
+        if (isset($data['is_active'])) unset($data['is_active']);
+
+        $tenant = auth()->user()->tenant;
+        $tenant->update($data);
+        return redirect(route('dashboard'))->with('success', __('Tenant updated successfull'));
     }
 }

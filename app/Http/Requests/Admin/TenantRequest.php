@@ -12,7 +12,7 @@ class TenantRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return $this->user()?->is_super_admin == 1;
+        return $this->user()?->is_super_admin == 1 OR $this->user()?->role === 'admin';
     }
 
     /**
